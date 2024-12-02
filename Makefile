@@ -4,13 +4,13 @@ TARGET := revercpp
 TEST := test
 
 $(TARGET): $(filter-out test.o, $(OBJ_FILES))
-	clang++ -std=c++20 -o $@ $^
+	c++ -std=c++20 -o $@ $^
 
 $(TEST): $(filter-out main.o, $(OBJ_FILES))
-	clang++ -std=c++20 -o $@ $^
+	c++ -std=c++20 -o $@ $^
 
 %.o: %.cpp
-	clang++ -std=c++20 -c $< -o $@
+	c++ -std=c++20 -c $< -o $@
 
 clean:
 	rm -vf $(OBJ_FILES) $(TARGET) $(TEST)
