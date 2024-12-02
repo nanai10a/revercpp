@@ -3,7 +3,7 @@ OBJ_FILES := $(CPP_FILES:.cpp=.o)
 TARGET := revercpp
 
 $(TARGET): $(OBJ_FILES)
-	g++ -o $@ $^
+	clang++ -std=c++20 -o $@ $^
 
 %.o: %.cpp
-	g++ -c $< -o $@
+	clang++ -std=c++20 -c $< -o $@
