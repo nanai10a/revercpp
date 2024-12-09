@@ -1,0 +1,102 @@
+@startuml
+note as gn
+Array は 要素群 を持つデータ型です
+Set は 重複しない要素群 を持つデータ型です
+
+Either は どちらか を示すデータ型です
+String は 文字列 を表すデータ型です
+ID は 一意な識別子 を表すデータ型です
+
+unsigned int は 符号無し整数値 を表すデータ型です
+end note
+
+class Position <<Datatype>> {
+    -x : unsigned int
+    -y : unsigned int
+
+    +getX()
+    +getY()
+}
+
+interface Board <<Game Component>> {
+    +void place(Piece piece, Position position)
+    +void flip(Position position, Player flippedBy)
+}
+
+class Piece <<Datatype>> {
+    -owner : Player
+    +Player ownedBy()
+}
+
+interface Renderer <<Interaction Component>> {
+    +void updatePlayers(Array<Player> players)
+    +void updateBoard(Board board)
+    +void updateStatus(String message)
+}
+
+circle "表示先" as co
+
+interface Player <<Game Component>> {
+    +ID getID()
+    +void placePiece(Board board)
+}
+
+interface Controller <<Interaction Component>> {
+    +Position capturePosition()
+    +T capturePopupResult<T>(Popup<T> popup)
+}
+
+interface Popup<T extends Choice> <<Interaction Component>> {
+    +String getMessage()
+    +Array<T> getChoices()
+}
+
+interface Choice <<Interaction Component>> {
+    +String getMessage()
+}
+
+circle "入力元" as ci
+
+interface Master <<Game Component>> {
+    +void flip(Board board)
+}
+
+class Game <<Game Component>> {
+    -players : Set<Player>
+    -master : Master
+    -board : Board
+
+    +void appendPlayer(Player player)
+    +void setMaster(Master master)
+    +void setBoard(Board board)
+
+    +GameResult run()
+}
+
+class Main <<Entrypoint>> {
+    +void main()
+}
+
+Main -- Game : plays >
+
+Player "1" -down-* "1" Controller
+Board "1" -down-* "1" Renderer
+
+Board "1" *-down- "*" Piece
+
+co <-up- Renderer
+Controller <-down- ci
+
+Popup "*" -left-* "1" Choice
+Popup .[hidden]. (Controller, Player)
+
+Player .right. Board : interact >
+Piece -up[hidden]- Master
+Board .right. Master : interact <
+
+Game "1" --* "2" Player
+Game "1" --* "1" Board
+Game "1" --* "1" Master
+
+Player -up[hidden]- Position
+@enduml

@@ -1,0 +1,16 @@
+@startuml
+package 盤面 {
+    usecase "石を配置" as pp
+    usecase "石を反転" as fp
+}
+
+actor "プレイヤー１" as p1
+actor "プレイヤー２" as p2
+
+p1 -up-> pp
+p2 -up-> pp
+
+actor "システム" as m
+
+m -up-> fp
+@enduml

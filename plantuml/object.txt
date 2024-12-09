@@ -1,0 +1,37 @@
+@startuml
+object "Main"
+
+object "Game"
+"Main" -down-> "Game"
+
+together {
+object "Master"
+"Game" -down-* "Master"
+
+object "Player" as p1
+p1 : id = 1
+
+object "Player" as p2
+p2 : id = 2
+}
+
+object "Board"
+"Board" : pieces = Piece[][]
+"Game" -down--* "Board"
+
+p1 -[hidden]- p2
+p2 -[hidden]- "Master"
+
+"Game" -down-* p1
+"Game" -down-* p2
+
+"Master" .right. "Board" : interact >
+p1 .left. "Board" : interact >
+p2 .left. "Board" : interact >
+
+object "Controller"
+"Game" -left-* "Controller"
+
+object "Renderer"
+"Game" -right-* "Renderer"
+@enduml

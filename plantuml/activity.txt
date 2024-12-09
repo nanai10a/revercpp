@@ -1,0 +1,32 @@
+@startuml
+start;
+
+:ゲームを初期化;
+floating note right: 最初のプレイヤーは Player 1
+floating note right: 規定の形で石を配置し, 他は取り除く
+
+repeat;
+    if (盤面が石で満杯) then (はい)
+        break;
+    endif
+
+
+    if (全てのプレイヤーが盤面に石を配置することができない) then (はい)
+        break;
+    endif
+
+    :プレイヤーが盤面に石を配置する;
+    :システムによって適当な石が裏返る;
+    :プレイヤーが変更される;
+    floating note right: プレイヤーが Player 1 の場合は Player 2 に,\nプレイヤーが Player 2 の場合は Player 1 に
+repeat while ();
+
+if (最大の石の数がある) then (はい)
+    :最も多く石を配置したプレイヤーの勝利;
+else (いいえ)
+    :勝者無し, 引き分け;
+endif
+
+:ゲームを終了;
+stop;
+@enduml
