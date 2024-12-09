@@ -1,2 +1,35 @@
 @startuml
+actor "プレイヤー" as p
+participant "ゲーム進行" as a
+participant "盤" as b
+
+p -> a : 実行する
+activate p
+loop
+  activate a
+  a <- b : 盤の状態を表示する
+  p <- a : プレイヤーの入力を受け付ける
+  p -> a : 石を置く位置を入力
+  a -> b : 石を裏返す
+  activate b
+  a <- b : 盤の状態を表示する
+  deactivate b
+  a -> b : 勝者が決まったか調べる
+  activate b
+  a <-- b :結果
+  deactivate b
+  break 勝者が決まった
+    p <- a : 勝者を表示する
+  end
+  a -> b : ゲーム継続か？
+  activate b
+  b --> a :結果
+  deactivate b
+  break ゲーム終了
+    p <- a : 引き分けを表示する
+  end
+  p <- a : プレイヤーを交代する
+end
+deactivate p
+deactivate a
 @enduml
